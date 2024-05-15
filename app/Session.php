@@ -1,7 +1,10 @@
 <?php
 
+<<<<<<< Updated upstream
 declare(strict_types = 1);
 
+=======
+>>>>>>> Stashed changes
 namespace App;
 
 use App\Contracts\SessionInterface;
@@ -10,9 +13,14 @@ use App\Exception\SessionException;
 
 class Session implements SessionInterface
 {
+<<<<<<< Updated upstream
     public function __construct(private readonly SessionConfig $options)
     {
     }
+=======
+
+    public function __construct(private readonly SessionConfig $options) { }
+>>>>>>> Stashed changes
 
     public function start(): void
     {
@@ -20,23 +28,39 @@ class Session implements SessionInterface
             throw new SessionException('Session has already been started');
         }
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         if (headers_sent($fileName, $line)) {
             throw new SessionException('Headers have already sent by ' . $fileName . ':' . $line);
         }
 
         session_set_cookie_params(
             [
+<<<<<<< Updated upstream
                 'secure'   => $this->options->secure,
+=======
+                'secure' => $this->options->secure,
+>>>>>>> Stashed changes
                 'httponly' => $this->options->httpOnly,
                 'samesite' => $this->options->sameSite->value,
             ]
         );
 
+<<<<<<< Updated upstream
         if (! empty($this->options->name)) {
             session_name($this->options->name);
         }
 
         if (! session_start()) {
+=======
+        if (!empty($this->options->name)) {
+            session_name($this->options->name);
+        }
+
+        if (!session_start()) {
+>>>>>>> Stashed changes
             throw new SessionException('Unable to start the session');
         }
     }
@@ -75,6 +99,7 @@ class Session implements SessionInterface
     {
         unset($_SESSION[$key]);
     }
+<<<<<<< Updated upstream
 
     public function flash(string $key, array $messages): void
     {
@@ -90,3 +115,6 @@ class Session implements SessionInterface
         return $messages;
     }
 }
+=======
+}
+>>>>>>> Stashed changes

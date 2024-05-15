@@ -1,6 +1,10 @@
 <?php
 
+<<<<<<< Updated upstream
 declare(strict_types = 1);
+=======
+declare(strict_types=1);
+>>>>>>> Stashed changes
 
 namespace App;
 
@@ -8,11 +12,14 @@ use App\Contracts\AuthInterface;
 use App\Contracts\SessionInterface;
 use App\Contracts\UserInterface;
 use App\Contracts\UserProviderServiceInterface;
+<<<<<<< Updated upstream
 use App\DataObjects\RegisterUserData;
 use App\Enum\AuthAttemptStatus;
 use App\Mail\SignupEmail;
 use App\Mail\TwoFactorAuthEmail;
 use App\Services\UserLoginCodeService;
+=======
+>>>>>>> Stashed changes
 
 class Auth implements AuthInterface
 {
@@ -20,10 +27,14 @@ class Auth implements AuthInterface
 
     public function __construct(
         private readonly UserProviderServiceInterface $userProvider,
+<<<<<<< Updated upstream
         private readonly SessionInterface $session,
         private readonly SignupEmail $signupEmail,
         private readonly TwoFactorAuthEmail $twoFactorAuthEmail,
         private readonly UserLoginCodeService $userLoginCodeService
+=======
+        private readonly SessionInterface $session
+>>>>>>> Stashed changes
     ) {
     }
 
@@ -35,13 +46,21 @@ class Auth implements AuthInterface
 
         $userId = $this->session->get('user');
 
+<<<<<<< Updated upstream
         if (! $userId) {
+=======
+        if (!$userId) {
+>>>>>>> Stashed changes
             return null;
         }
 
         $user = $this->userProvider->getById($userId);
 
+<<<<<<< Updated upstream
         if (! $user) {
+=======
+        if (!$user) {
+>>>>>>> Stashed changes
             return null;
         }
 
@@ -50,6 +69,7 @@ class Auth implements AuthInterface
         return $this->user;
     }
 
+<<<<<<< Updated upstream
     public function attemptLogin(array $credentials): AuthAttemptStatus
     {
         $user = $this->userProvider->getByCredentials($credentials);
@@ -67,6 +87,23 @@ class Auth implements AuthInterface
         $this->logIn($user);
 
         return AuthAttemptStatus::SUCCESS;
+=======
+    public function attemptLogin(array $credentials): bool
+    {
+        $user = $this->userProvider->getByCredentials($credentials);
+
+        if (!$user || !$this->checkCredentials($user, $credentials)) {
+            return false;
+        }
+
+        $this->session->regenerate();
+        $this->session->put('user', $user->getId());
+
+
+        $this->user = $user;
+
+        return true;
+>>>>>>> Stashed changes
     }
 
     public function checkCredentials(UserInterface $user, array $credentials): bool
@@ -81,6 +118,7 @@ class Auth implements AuthInterface
 
         $this->user = null;
     }
+<<<<<<< Updated upstream
 
     public function register(RegisterUserData $data): UserInterface
     {
@@ -138,3 +176,6 @@ class Auth implements AuthInterface
         return true;
     }
 }
+=======
+}
+>>>>>>> Stashed changes

@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app:
     build:
-      context: ""
+      context: .
       dockerfile: Dockerfile
       args:
         USER_ID: '${WWWUSER:-1000}'
@@ -15,7 +15,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:
-      - "9003:9003"
+      - ":9003"
     volumes:
       - ../:/var/www
       - ./local.ini:/usr/local/etc/php/conf.d/local.ini
@@ -37,6 +37,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
     ports:
+<<<<<<< Updated upstream
       - "3306:3306"
   mailhog:
     container_name: expennies-mailhog
@@ -54,3 +55,6 @@ services:
     ports:
       - "6379:6379"
     command: redis-server --requirepass mypassword
+=======
+      - "3306:3306"
+>>>>>>> Stashed changes

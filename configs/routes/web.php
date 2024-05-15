@@ -1,10 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use App\Controllers\AuthController;
 use App\Controllers\CategoryController;
 use App\Controllers\HomeController;
+<<<<<<< Updated upstream
 use App\Controllers\PasswordResetController;
 use App\Controllers\ProfileController;
 use App\Controllers\ReceiptController;
@@ -16,10 +17,15 @@ use App\Middleware\GuestMiddleware;
 use App\Middleware\RateLimitMiddleware;
 use App\Middleware\ValidateSignatureMiddleware;
 use App\Middleware\VerifyEmailMiddleware;
+=======
+use App\Middleware\AuthMiddleware;
+use App\Middleware\GuestMiddleware;
+>>>>>>> Stashed changes
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
 return function (App $app) {
+<<<<<<< Updated upstream
     $app->group('', function (RouteCollectorProxy $group) {
         $group->get('/', [HomeController::class, 'index'])->setName('home');
         $group->get('/stats/ytd', [HomeController::class, 'getYearToDateStatistics']);
@@ -94,4 +100,13 @@ return function (App $app) {
               ->setName('resetPassword')
               ->add(RateLimitMiddleware::class);
     })->add(GuestMiddleware::class);
+=======
+    $app->get('/', [HomeController::class, 'index'])->add(AuthMiddleware::class);
+
+    $app->get('/login', [AuthController::class, 'loginView'])->add(GuestMiddleware::class);
+    $app->get('/register', [AuthController::class, 'registerView'])->add(GuestMiddleware::class);
+    $app->post('/login', [AuthController::class, 'logIn'])->add(GuestMiddleware::class);
+    $app->post('/register', [AuthController::class, 'register'])->add(GuestMiddleware::class);
+    $app->post('/logout', [AuthController::class, 'logOut'])->add(AuthMiddleware::class);
+>>>>>>> Stashed changes
 };

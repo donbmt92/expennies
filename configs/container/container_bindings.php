@@ -5,6 +5,7 @@ declare(strict_types = 1);
 use App\Auth;
 use App\Config;
 use App\Contracts\AuthInterface;
+<<<<<<< Updated upstream
 use App\Contracts\EntityManagerServiceInterface;
 use App\Contracts\RequestValidatorFactoryInterface;
 use App\Contracts\SessionInterface;
@@ -23,6 +24,15 @@ use App\Session;
 use Clockwork\DataSource\DoctrineDataSource;
 use Clockwork\Storage\FileStorage;
 use Doctrine\DBAL\DriverManager;
+=======
+use App\Contracts\SessionInterface;
+use App\Contracts\UserProviderServiceInterface;
+use App\DataObjects\SessionConfig;
+use App\Enum\AppEnvironment;
+use App\Enum\SameSite;
+use App\Services\UserProviderService;
+use App\Session;
+>>>>>>> Stashed changes
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMSetup;
@@ -32,11 +42,16 @@ use DoctrineExtensions\Query\Mysql\Year;
 use League\Flysystem\Filesystem;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
+<<<<<<< Updated upstream
 use Psr\SimpleCache\CacheInterface;
 use Slim\App;
 use Slim\Csrf\Guard;
 use Slim\Factory\AppFactory;
 use Slim\Interfaces\RouteParserInterface;
+=======
+use Slim\App;
+use Slim\Factory\AppFactory;
+>>>>>>> Stashed changes
 use Slim\Views\Twig;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Bridge\Twig\Mime\BodyRenderer;
@@ -60,7 +75,11 @@ use Clockwork\Clockwork;
 use function DI\create;
 
 return [
+<<<<<<< Updated upstream
     App::class                              => function (ContainerInterface $container) {
+=======
+    App::class                          => function (ContainerInterface $container) {
+>>>>>>> Stashed changes
         AppFactory::setContainer($container);
 
         $addMiddlewares = require CONFIG_PATH . '/middleware.php';
@@ -68,6 +87,7 @@ return [
 
         $app = AppFactory::create();
 
+<<<<<<< Updated upstream
         $app->getRouteCollector()->setDefaultInvocationStrategy(
             new RouteEntityBindingStrategy(
                 $container->get(EntityManagerServiceInterface::class),
@@ -75,12 +95,15 @@ return [
             )
         );
 
+=======
+>>>>>>> Stashed changes
         $router($app);
 
         $addMiddlewares($app);
 
         return $app;
     },
+<<<<<<< Updated upstream
     Config::class                           => create(Config::class)->constructor(
         require CONFIG_PATH . '/app.php'
     ),
@@ -110,6 +133,17 @@ return [
         );
     },
     Twig::class                             => function (Config $config, ContainerInterface $container) {
+=======
+    Config::class                       => create(Config::class)->constructor(require CONFIG_PATH . '/app.php'),
+    EntityManager::class                => fn(Config $config) => EntityManager::create(
+        $config->get('doctrine.connection'),
+        ORMSetup::createAttributeMetadataConfiguration(
+            $config->get('doctrine.entity_dir'),
+            $config->get('doctrine.dev_mode')
+        )
+    ),
+    Twig::class                         => function (Config $config, ContainerInterface $container) {
+>>>>>>> Stashed changes
         $twig = Twig::create(VIEW_PATH, [
             'cache'       => STORAGE_PATH . '/cache/templates',
             'auto_reload' => AppEnvironment::isDevelopment($config->get('app_environment')),
@@ -124,6 +158,7 @@ return [
     /**
      * The following two bindings are needed for EntryFilesTwigExtension & AssetExtension to work for Twig
      */
+<<<<<<< Updated upstream
     'webpack_encore.packages'               => fn() => new Packages(
         new Package(new JsonManifestVersionStrategy(BUILD_PATH . '/manifest.json'))
     ),
@@ -142,11 +177,29 @@ return [
         new SessionConfig(
             $config->get('session.name', ''),
             $config->get('session.flash_name', 'flash'),
+=======
+    'webpack_encore.packages'           => fn() => new Packages(
+        new Package(new JsonManifestVersionStrategy(BUILD_PATH . '/manifest.json'))
+    ),
+    'webpack_encore.tag_renderer'       => fn(ContainerInterface $container) => new TagRenderer(
+        new EntrypointLookup(BUILD_PATH . '/entrypoints.json'),
+        $container->get('webpack_encore.packages')
+    ),
+    ResponseFactoryInterface::class     => fn(App $app) => $app->getResponseFactory(),
+    AuthInterface::class                => fn(ContainerInterface $container) => $container->get(Auth::class),
+    UserProviderServiceInterface::class => fn(ContainerInterface $container) => $container->get(
+        UserProviderService::class
+    ),
+    SessionInterface::class             => fn(Config $config) => new Session(
+        new SessionConfig(
+            $config->get('session.name', ''),
+>>>>>>> Stashed changes
             $config->get('session.secure', true),
             $config->get('session.httponly', true),
             SameSite::from($config->get('session.samesite', 'lax'))
         )
     ),
+<<<<<<< Updated upstream
     RequestValidatorFactoryInterface::class => fn(ContainerInterface $container) => $container->get(
         RequestValidatorFactory::class
     ),
@@ -219,3 +272,6 @@ return [
         $config->get('limiter'), new CacheStorage($redisAdapter)
     ),
 ];
+=======
+];
+>>>>>>> Stashed changes

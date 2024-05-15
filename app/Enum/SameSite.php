@@ -9,4 +9,8 @@ enum SameSite: string
     case Lax = 'lax';
     case None = 'none';
     case Strict = 'strict';
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

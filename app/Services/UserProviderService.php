@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Services;
 
+<<<<<<< Updated upstream
 use App\Contracts\EntityManagerServiceInterface;
 use App\Contracts\UserInterface;
 use App\Contracts\UserProviderServiceInterface;
@@ -16,6 +17,17 @@ class UserProviderService implements UserProviderServiceInterface
         private readonly EntityManagerServiceInterface $entityManager,
         private readonly HashService $hashService
     ) {
+=======
+use App\Contracts\UserInterface;
+use App\Contracts\UserProviderServiceInterface;
+use App\Entity\User;
+use Doctrine\ORM\EntityManager;
+
+class UserProviderService implements UserProviderServiceInterface
+{
+    public function __construct(private readonly EntityManager $entityManager)
+    {
+>>>>>>> Stashed changes
     }
 
     public function getById(int $userId): ?UserInterface
@@ -27,6 +39,7 @@ class UserProviderService implements UserProviderServiceInterface
     {
         return $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
     }
+<<<<<<< Updated upstream
 
     public function createUser(RegisterUserData $data): UserInterface
     {
@@ -55,3 +68,6 @@ class UserProviderService implements UserProviderServiceInterface
         $this->entityManager->sync($user);
     }
 }
+=======
+}
+>>>>>>> Stashed changes

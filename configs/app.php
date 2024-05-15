@@ -5,6 +5,7 @@ declare(strict_types = 1);
 use App\Enum\AppEnvironment;
 use App\Enum\StorageDriver;
 
+<<<<<<< Updated upstream
 $boolean = function(mixed $value) {
     if (in_array($value, ['true', 1, '1', true, 'yes'], true)) {
         return true;
@@ -13,6 +14,8 @@ $boolean = function(mixed $value) {
     return false;
 };
 
+=======
+>>>>>>> Stashed changes
 $appEnv       = $_ENV['APP_ENV'] ?? AppEnvironment::Production->value;
 $appSnakeName = strtolower(str_replace(' ', '_', $_ENV['APP_NAME']));
 
@@ -39,6 +42,7 @@ return [
         ],
     ],
     'session'               => [
+<<<<<<< Updated upstream
         'name'       => $appSnakeName . '_session',
         'flash_name' => $appSnakeName . '_flash',
         'secure'     => $boolean($_ENV['SESSION_SECURE'] ?? true),
@@ -74,3 +78,11 @@ return [
         'limit'    => 25,
     ],
 ];
+=======
+        'name'     => $appSnakeName . '_session',
+        'secure'   => true,
+        'httponly' => true,
+        'samesite' => 'lax',
+    ],
+];
+>>>>>>> Stashed changes

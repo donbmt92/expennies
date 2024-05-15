@@ -1,6 +1,10 @@
 <?php
 
+<<<<<<< Updated upstream
 declare(strict_types = 1);
+=======
+declare(strict_types=1);
+>>>>>>> Stashed changes
 
 namespace App\Exception;
 
